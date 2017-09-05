@@ -1,0 +1,98 @@
+#EmployeeRecordWebApp{
+  background-color: #05b9cc;
+  height: 100%;
+  min-height: 800px;
+}
+.App {
+  text-align: center;
+}
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 60px;
+}
+.App-header {
+  background-color: #222;
+  height: 60px;
+  padding: 10px;
+  color: white;
+}
+.App-body{
+  padding: 20px;
+}
+.content-wrapper{
+  padding: 20px;
+}
+.App-intro {
+  font-size: large;
+}
+.input-wrapper{
+  width: 100%;
+}
+.no-underline{
+  text-decoration: none;
+}
+
+/*Employee Card Styles*/
+#employee-card{
+  padding: 20px;
+}
+#employee-card .employee-card-avatar{
+  width: auto;
+  height: 300px;
+  background: url('http://res.cloudinary.com/dmwvws7yf/image/upload/v1504547367/person_b3eeur.png') center no-repeat;
+  background-size: contain;
+  margin: 0 auto
+}
+#employee-card .name-text{
+  text-align: left;
+  font-size: 30px;
+  color: #4a4a4a;
+  text-transform: uppercase;
+}
+#employee-card .designation-text{
+  text-align: left;
+  font-size: 20px;
+  color: #9b9b9b;
+  text-transform: capitalize;
+}
+
+/*Employee Details Page Styles*/
+#details-wrapper{
+  padding: 20px;
+  display: flex;
+}
+#details-wrapper .details-card{
+  padding: 20px;
+  margin: 0 auto;
+  display: flex;
+}
+#details-wrapper .employee-img{
+  width: 200px;
+  height: 200px;
+  background: url('http://res.cloudinary.com/dmwvws7yf/image/upload/v1504547367/person_b3eeur.png')  no-repeat center;
+  background-size: contain;
+}
+#details-wrapper .employee-info-wrapper{
+  padding-left: 40px;
+  width: 60%;
+}
+#details-wrapper .employee-info-wrapper input{
+  margin: 0px;
+}
+#details-wrapper .employee-name, #details-wrapper input#employee-name{
+  font-size: 40px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+}
+#details-wrapper .employee-designation, #details-wrapper input#employee-designation{
+  font-size: 20px;
+  fon-style: italic;
+  text-transform: capitalize;
+}
+#details-wrapper .btn-wrapper{
+  padding-top: 40px
+}
+#details-wrapper .right-spacer{
+  margin-right: 30px
+}
