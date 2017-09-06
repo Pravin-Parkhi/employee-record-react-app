@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { withRouter } from 'react-router';
 
 //Material design imports
+import Header from "../header-view/header-view";
 import Card from 'react-md/lib/Cards/Card';
 import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'react-md/lib/TextFields';
@@ -80,40 +81,43 @@ class EmployeeDetail extends Component {
   render(){
     const isEditFormVisible = this.state.isEditFormVisible;
     return (
-      <div id="details-wrapper">
-        <Link to={"/"}>
-          <Button floating secondary iconClassName="fa fa-arrow-left"></Button>
-        </Link>
-        <Card className="md-cell md-cell--6 details-card">
-          <div className="employee-img"></div>
-          <div className="employee-info-wrapper">
-            <div className="employee-name-wrapper">
-              { isEditFormVisible ? (
-                <TextField id="employee-name" value={this.state.employeeName} className="lg-cell"
-                           onChange={this.handleNameChange} />
-              ) : (
-                <div className="employee-name">{this.state.employeeName}</div>
-              )}
+      <div className="">
+        <Header></Header>
+        <div id="details-wrapper">
+          <Link to={"/"}>
+            <Button floating secondary iconClassName="fa fa-arrow-left"></Button>
+          </Link>
+          <Card className="md-cell md-cell--6 details-card">
+            <div className="employee-img"></div>
+            <div className="employee-info-wrapper">
+              <div className="employee-name-wrapper">
+                { isEditFormVisible ? (
+                  <TextField id="employee-name" value={this.state.employeeName} className="lg-cell"
+                             onChange={this.handleNameChange} />
+                ) : (
+                  <div className="employee-name">{this.state.employeeName}</div>
+                )}
+              </div>
+              <div className="employee-designation-wrapper">
+                { isEditFormVisible ? (
+                  <TextField id="employee-designation" value={this.state.employeeDesignation} className="lg-cell"
+                             onChange={this.handleDesignationChange} />
+                ) : (
+                  <div className="employee-designation">{this.state.employeeDesignation}</div>
+                )}
+              </div>
+              <div className="btn-wrapper">
+                <Button raised secondary label="Delete" className="right-spacer"
+                        onClick={()=> this.deleteEmployee(this.state.activeEmployeeRecord.id)} />
+                { isEditFormVisible ? (
+                  <Button raised primary label="Save" onClick={()=> this.updateEmployee()} />
+                ) : (
+                  <Button raised primary label="Edit" onClick={()=> this.editEmployee()} />
+                )}
+              </div>
             </div>
-            <div className="employee-designation-wrapper">
-              { isEditFormVisible ? (
-                <TextField id="employee-designation" value={this.state.employeeDesignation} className="lg-cell"
-                           onChange={this.handleDesignationChange} />
-              ) : (
-                <div className="employee-designation">{this.state.employeeDesignation}</div>
-              )}
-            </div>
-            <div className="btn-wrapper">
-              <Button raised secondary label="Delete" className="right-spacer"
-                      onClick={()=> this.deleteEmployee(this.state.activeEmployeeRecord.id)} />
-              { isEditFormVisible ? (
-                <Button raised primary label="Save" onClick={()=> this.updateEmployee()} />
-              ) : (
-                <Button raised primary label="Edit" onClick={()=> this.editEmployee()} />
-              )}
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
       </div>
     );
   }

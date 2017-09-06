@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import Button from 'react-md/lib/Buttons/Button';
 
 /*Custom component imports*/
+import Header from './header-view/header-view';
 import ModalDialogExamples from './app-modal/app-modal';
 import EmployeeList from './employee-grid-view/employee-grid-view';
 
@@ -35,8 +36,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header"></div>
-        <div className="App-body">
+        <Header></Header>
+         <div className="App-body">
           <div className="button-wrapper">
             <Button raised secondary label="Add Employee" onClick={()=> this.refs.modalComponent.openDialog()} />
           </div>
