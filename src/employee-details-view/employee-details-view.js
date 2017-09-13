@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { withRouter } from 'react-router';
+import update from 'immutability-helper';
 
 //Material design imports
-import Header from "../header-view/header-view";
+import Header from '../common/header-view/header-view';
 import Card from 'react-md/lib/Cards/Card';
 import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'react-md/lib/TextFields';
@@ -12,17 +13,8 @@ import TextField from 'react-md/lib/TextFields';
 class EmployeeDetail extends Component {
   constructor(props){
     super(props)
-
-    //Not sure about this weather this is the way to do this
-    let employeeDetails = this.getEmployeeRecord()
-
     this.state = {
-      employeeCollection: JSON.parse(localStorage.getItem('employeeCollection')),
-      activeEmployeeRecord: this.getEmployeeRecord(),
-
-      employeeName: employeeDetails.name,
-      employeeDesignation: employeeDetails.designation,
-
+      activeEmployee: this.getEmployeeRecord(),
       isEditFormVisible: false,
     }
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -47,18 +39,16 @@ class EmployeeDetail extends Component {
   }
 
   updateEmployee(){
-    this.setState({ isEditFormVisible: false });
-    this.state.activeEmployeeRecord.name = this.state.employeeName;
-    this.state.activeEmployeeRecord.designation = this.state.employeeDesignation;
-
-    let employeeId = this.props.params.id;
-    this.state.employeeCollection.forEach(employee => {
-      if (employee.id == employeeId){
-        employee.name = this.state.employeeName;
-        employee.designation = this.state.employeeDesignation
+    let activeEmployee = this.state.activeEmployee;
+    let employeeCollection = JSON.parse(localStorage.getItem('employeeCollection'));
+    employeeCollection.forEach(employee => {
+      if (employee.id == activeEmployee.id){
+        employee.name = activeEmployee.name;
+        employee.designation = activeEmployee.designation
       }
-    })
-    localStorage.setItem('employeeCollection', JSON.stringify(this.state.employeeCollection));
+    });
+    localStorage.setItem('employeeCollection', JSON.stringify(employeeCollection));
+    this.setState({ isEditFormVisible: false });
   }
 
   deleteEmployee(){
@@ -72,10 +62,13 @@ class EmployeeDetail extends Component {
   }
 
   handleNameChange(value){
-    this.setState({ employeeName : value});
+    let newActiveEmployee = Object.assign({}, this.state.activeEmployee, {name:value});
+    this.setState({activeEmployee:newActiveEmployee});
   }
+
   handleDesignationChange(value){
-    this.setState({ employeeDesignation : value});
+    let newActiveEmployee = Object.assign({}, this.state.activeEmployee, {designation:value});
+    this.setState({activeEmployee:newActiveEmployee});
   }
 
   render(){
@@ -92,23 +85,23 @@ class EmployeeDetail extends Component {
             <div className="employee-info-wrapper">
               <div className="employee-name-wrapper">
                 { isEditFormVisible ? (
-                  <TextField id="employee-name" value={this.state.employeeName} className="lg-cell"
+                  <TextField id="employee-name" value={this.state.activeEmployee.name} className="lg-cell"
                              onChange={this.handleNameChange} />
                 ) : (
-                  <div className="employee-name">{this.state.employeeName}</div>
+                  <div className="employee-name">{this.state.activeEmployee.name}</div>
                 )}
               </div>
               <div className="employee-designation-wrapper">
                 { isEditFormVisible ? (
-                  <TextField id="employee-designation" value={this.state.employeeDesignation} className="lg-cell"
+                  <TextField id="employee-designation" value={this.state.activeEmployee.designation} className="lg-cell"
                              onChange={this.handleDesignationChange} />
                 ) : (
-                  <div className="employee-designation">{this.state.employeeDesignation}</div>
+                  <div className="employee-designation">{this.state.activeEmployee.designation}</div>
                 )}
               </div>
               <div className="btn-wrapper">
                 <Button raised secondary label="Delete" className="right-spacer"
-                        onClick={()=> this.deleteEmployee(this.state.activeEmployeeRecord.id)} />
+                        onClick={()=> this.deleteEmployee(this.state.activeEmployee.id)} />
                 { isEditFormVisible ? (
                   <Button raised primary label="Save" onClick={()=> this.updateEmployee()} />
                 ) : (

@@ -5,8 +5,8 @@ import React, { Component } from 'react';
 import Button from 'react-md/lib/Buttons/Button';
 
 /*Custom component imports*/
-import Header from './header-view/header-view';
-import ModalDialogExamples from './app-modal/app-modal';
+import Header from './common/header-view/header-view';
+import ModalDialogExamples from './common/app-modal/app-modal';
 import EmployeeList from './employee-grid-view/employee-grid-view';
 
 import './App.css';

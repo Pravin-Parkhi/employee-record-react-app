@@ -15,9 +15,10 @@ import './index.css';
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="/" component={App} />
-    <Route path="/employee/:id" component={EmployeeDetail} />
+    <Route path="/" component={ App } />
+    <Route path="/employee/:id" component={ EmployeeDetail } />
   </Router>,
   document.getElementById('EmployeeRecordWebApp')
 )
+
 registerServiceWorker();
