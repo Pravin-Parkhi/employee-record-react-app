@@ -4,8 +4,12 @@ import { Link } from 'react-router';
 import { withRouter } from 'react-router';
 import update from 'immutability-helper';
 
+//Stores imports
+import * as EmployeeActions from '../../actions/employee-actions';
+import EmployeeStore from '../../stores/employee-store';
+
 //Material design imports
-import Header from '../common/header-view/header-view';
+import Header from '../../common/header-view/header-view';
 import Card from 'react-md/lib/Cards/Card';
 import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'react-md/lib/TextFields';
@@ -14,51 +18,37 @@ class EmployeeDetail extends Component {
   constructor(props){
     super(props)
     this.state = {
-      activeEmployee: this.getEmployeeRecord(),
+      activeEmployee: EmployeeStore.getActiveEmployee(this.props.params.id),
       isEditFormVisible: false,
     }
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDesignationChange = this.handleDesignationChange.bind(this);
   }
 
-  getEmployeeRecord(){
-    let employeeId = this.props.params.id;
-    let employeeCollection = JSON.parse(localStorage.getItem('employeeCollection'));
-    let recordIndex = employeeCollection.findIndex(obj => obj.id == employeeId);
-    return employeeCollection[recordIndex];
-  }
-
-  getEmployeeRecordIndex(){
-    let employeeId = this.props.params.id;
-    let employeeRecords = JSON.parse(localStorage.getItem('employeeCollection'));
-    return employeeRecords.findIndex(obj => obj.id == employeeId);
-  }
-
+  //Method to enable edit employee form
   editEmployee(){
     this.setState({ isEditFormVisible: true });
   }
 
+  //Method to update employee
   updateEmployee(){
-    let activeEmployee = this.state.activeEmployee;
-    let employeeCollection = JSON.parse(localStorage.getItem('employeeCollection'));
-    employeeCollection.forEach(employee => {
-      if (employee.id == activeEmployee.id){
-        employee.name = activeEmployee.name;
-        employee.designation = activeEmployee.designation
-      }
-    });
-    localStorage.setItem('employeeCollection', JSON.stringify(employeeCollection));
+    let employee = this.state.activeEmployee;
+    EmployeeActions.updateEmployee(employee);
     this.setState({ isEditFormVisible: false });
   }
 
+  //Method to delete employee
   deleteEmployee(){
     let recordIndex = this.getEmployeeRecordIndex();
-    let employeeCollection = JSON.parse(localStorage.getItem('employeeCollection'))
-    if (recordIndex > -1){
-      employeeCollection.splice(recordIndex, 1);
-    }
-    localStorage.setItem('employeeCollection', JSON.stringify(employeeCollection));
-    this.props.router.push('/')
+    EmployeeActions.deleteEmployee(recordIndex);
+    this.props.router.push('/');
+  }
+
+  //Method to get employee record index from employee collection
+  getEmployeeRecordIndex(){
+    let employeeId = this.props.params.id;
+    let employeeRecords = JSON.parse(localStorage.getItem('employeeCollection'));
+    return employeeRecords.findIndex(obj => obj.id == employeeId);
   }
 
   handleNameChange(value){
@@ -101,7 +91,7 @@ class EmployeeDetail extends Component {
               </div>
               <div className="btn-wrapper">
                 <Button raised secondary label="Delete" className="right-spacer"
-                        onClick={()=> this.deleteEmployee(this.state.activeEmployee.id)} />
+                        onClick={()=> this.deleteEmployee()} />
                 { isEditFormVisible ? (
                   <Button raised primary label="Save" onClick={()=> this.updateEmployee()} />
                 ) : (

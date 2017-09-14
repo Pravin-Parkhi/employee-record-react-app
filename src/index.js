@@ -5,7 +5,7 @@ import {Router, Route, browserHistory} from 'react-router';
 
 //Custom component imports
 import App from './App';
-import EmployeeDetail from './employee-details-view/employee-details-view';
+import EmployeeDetail from './pages/employee-details-view/employee-details-view';
 
 //
 import registerServiceWorker from './registerServiceWorker';
