@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 
 //Material design imports
-import EmployeeCard from '../common/employe-card/employee-card';
+import EmployeeCard from '../../common/employe-card/employee-card';
 
 class EmployeeList extends Component{
   constructor(props){

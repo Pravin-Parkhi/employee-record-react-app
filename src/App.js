@@ -7,7 +7,11 @@ import Button from 'react-md/lib/Buttons/Button';
 /*Custom component imports*/
 import Header from './common/header-view/header-view';
 import ModalDialogExamples from './common/app-modal/app-modal';
-import EmployeeList from './employee-grid-view/employee-grid-view';
+import EmployeeList from './pages/employee-grid-view/employee-grid-view';
+
+/*Stores imports*/
+import * as EmployeeActions from './actions/employee-actions';
+import EmployeeStore from './stores/employee-store';
 
 import './App.css';
 
@@ -15,22 +19,28 @@ class App extends Component {
 
   constructor(){
     super()
+    this.getEmployees = this.getEmployees.bind(this);
     this.state = {
-      employeeCollection: JSON.parse(localStorage.getItem('employeeCollection'))
-        ? JSON.parse(localStorage.getItem('employeeCollection')) : []
+      employeeCollection: EmployeeStore.getAllEmployees()
     }
   }
 
-  addEmployee(employee){
-    this.state.employeeCollection.push({
-      'id': employee.id,
-      'name': employee.name,
-      'designation': employee.designation
+  componentDidMount(){
+    EmployeeStore.on("change", this.getEmployees);
+  }
+
+  componentWillUnmount(){
+    EmployeeStore.removeListener("change", this.getEmployees);
+  }
+
+  getEmployees(){
+    this.setState({
+      employeeCollection: EmployeeStore.getAllEmployees()
     })
-    localStorage.setItem('employeeCollection', JSON.stringify(this.state.employeeCollection));
-    this.setState(
-      {employeeCollection: this.state.employeeCollection}
-    );
+  }
+
+  addEmployee(employee){
+    EmployeeActions.createEmployee(employee);
   }
 
   render() {
